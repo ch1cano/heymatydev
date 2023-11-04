@@ -1,0 +1,5824 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Heymaty - OpenAPI 3.0",
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "To interact with this API, you'll first need to obtain a token from the /login endpoint. Once you have the token, use it to authorize subsequent API requests",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://heymaty.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "get token for authorize"
+    },
+    {
+      "name": "bundles",
+      "description": "bundles"
+    },
+    {
+      "name": "claims",
+      "description": "claims"
+    },
+    {
+      "name": "comments",
+      "description": "comments"
+    },
+    {
+      "name": "favourites",
+      "description": "favourites"
+    },
+    {
+      "name": "geo",
+      "description": "geo"
+    },
+    {
+      "name": "language",
+      "description": "language"
+    },
+    {
+      "name": "likes",
+      "description": "likes"
+    },
+    {
+      "name": "notifications",
+      "description": "notifications"
+    },
+    {
+      "name": "payments",
+      "description": "payments"
+    },
+    {
+      "name": "posts",
+      "description": "posts"
+    },
+    {
+      "name": "profile",
+      "description": "profile"
+    },
+    {
+      "name": "purchases",
+      "description": "purchases"
+    },
+    {
+      "name": "region",
+      "description": "region"
+    },
+    {
+      "name": "requests",
+      "description": "requests"
+    },
+    {
+      "name": "stripe",
+      "description": "stripe"
+    },
+    {
+      "name": "tariff",
+      "description": "tariff"
+    },
+    {
+      "name": "transactions",
+      "description": "transactions"
+    },
+    {
+      "name": "users",
+      "description": "users"
+    },
+    {
+      "name": "verification",
+      "description": "verification"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login route",
+        "description": "Login route",
+        "operationId": "Login route",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "d85a1d77aa88a227ad75dab3ab09248bbf7e0d2969a1ede0c13428553bfb5ddb8cbc8b0b32af4816ee63596cc1b2aad65f2b4f67ccb2d0ec9bd7098772a2490572b8b9258177fdf59cec7571b0b361052c6360fe9f3ec53ca1729992e20cc24b29ed7b07850bdf34fc876aa330a4b1375cae649e3702febeda02bb5fe947611a87d1c1249abe069f5a68ecdbaa3a68f16069abb3827c5843c56fd76238abc15d458e4f42f6f319522a4dda90933ed5edcea19bce988e0b5d180d6c287104244c"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/bundles/": {
+      "get": {
+        "tags": [
+          "bundles"
+        ],
+        "summary": "Get all my bundles",
+        "description": "Get all my bundles",
+        "operationId": "Get all my bundles",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BundlesResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      },
+      "post": {
+        "tags": [
+          "bundles"
+        ],
+        "summary": "Create a new bundle",
+        "description": "Create a new bundle for a user",
+        "operationId": "createbundles",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "qty": {
+                    "type": "integer",
+                    "description": "Quantity of messages in the bundle"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Price of the bundle"
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Status of the bundle (active or not)"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the bundle"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Type of the bundle (e.g., \"limited\")"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Amount of packages for a limited bundle"
+                  }
+                },
+                "required": [
+                  "qty",
+                  "price"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newBundle": {
+                      "$ref": "#/components/schemas/Bundle"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/bundles/{bundleId}": {
+      "get": {
+        "tags": [
+          "bundles"
+        ],
+        "summary": "Get a bundle",
+        "description": "Get a bundle",
+        "operationId": "Get a bundle",
+        "parameters": [
+          {
+            "name": "bundleId",
+            "in": "path",
+            "description": "The type of callback to be processed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bundle": {
+                      "$ref": "#/components/schemas/Bundle"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "bundles"
+        ],
+        "summary": "Delete a bundle",
+        "description": "Delete a bundle",
+        "operationId": "Delete a bundle",
+        "parameters": [
+          {
+            "name": "bundleId",
+            "in": "path",
+            "description": "The type of callback to be processed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/bundles/model/{modelId}": {
+      "get": {
+        "tags": [
+          "bundles"
+        ],
+        "summary": "Get all active bundles of model",
+        "description": "Get all active bundles of model",
+        "operationId": "Get all active bundles of model",
+        "parameters": [
+          {
+            "name": "modelId",
+            "in": "path",
+            "description": "The type of callback to be processed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BundlesResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/claims": {
+      "get": {
+        "tags": [
+          "claims"
+        ],
+        "summary": "Get user's claims",
+        "description": "Get claims for a specific user. The user must be authenticated and have the role of either 'user' or 'girl'.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "default": "payment",
+              "enum": [
+                "payment",
+                "chat",
+                "support"
+              ]
+            },
+            "description": "The type of claims to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved claims",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "claims": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Claim"
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Claims not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/comments/post/{id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "get a comment",
+        "description": "get a comment",
+        "operationId": "getComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "comments": {
+                      "type": "object",
+                      "properties": {
+                        "docs": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Comments"
+                          }
+                        },
+                        "totalDocs": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "totalPages": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "pagingCounter": {
+                          "type": "number"
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean"
+                        },
+                        "hasNextPage": {
+                          "type": "boolean"
+                        },
+                        "prevPage": {
+                          "type": "number"
+                        },
+                        "nextPage": {
+                          "type": "number"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/comments/count/post/{id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "get a count comments",
+        "description": "get a count comments",
+        "operationId": "getCountComments",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/comments/": {
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "create a comment",
+        "description": "create a comment",
+        "operationId": "createComment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "postId": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": "string"
+                  },
+                  "mentions": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "postId",
+                  "comment"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newComment": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/Comments"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "delete a comment",
+        "description": "delete a comment",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/favourites/mine": {
+      "get": {
+        "tags": [
+          "favourites"
+        ],
+        "summary": "Get all user favourite route",
+        "description": "Get all user favourite route",
+        "operationId": "GetMineFavourites",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "favouriteModels": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Favourites"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/favourites/": {
+      "post": {
+        "tags": [
+          "favourites"
+        ],
+        "summary": "Create new favourite route",
+        "description": "Create new favourite route",
+        "operationId": "createFavourite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "modelId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "modelId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "favourite": {
+                      "$ref": "#/components/schemas/Favourites"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Девушка добавлена в Избранное"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/favourites/{modelid}": {
+      "get": {
+        "tags": [
+          "favourites"
+        ],
+        "summary": "Get item route",
+        "description": "Get item route",
+        "operationId": "getFavourite",
+        "parameters": [
+          {
+            "name": "modelid",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Девушки нет в Избранном"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/favourites/count/{id}": {
+      "get": {
+        "tags": [
+          "favourites"
+        ],
+        "summary": "Get favourites count for model",
+        "description": "Get favourites count for model",
+        "operationId": "GetFavouritesCount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Количество добавлений девушки в Избранное"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/favourites/{id}": {
+      "delete": {
+        "tags": [
+          "favourites"
+        ],
+        "summary": "Delete favourite route",
+        "description": "Delete favourite route",
+        "operationId": "delFavourite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Девушка удалена из Избранного"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Девушки нет в Избранном"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/geo/": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get countries",
+        "description": "Get countries",
+        "operationId": "getCountries",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Страны отдал"
+                    },
+                    "jsonDoc": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/geo/{country}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get cities by country name",
+        "description": "Get cities by country name",
+        "operationId": "getCountry",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "description": "Write name country Albania",
+            "example": "Albania",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Города для страны Albania отдал"
+                    },
+                    "jsonDoc": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/language/": {
+      "get": {
+        "tags": [
+          "language"
+        ],
+        "summary": "Get Languages route",
+        "description": "Get Languages route",
+        "operationId": "getLanguages",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "languages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "64ff04fdbba02bede6a5fc24"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Ruzke"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Все языки"
+                    },
+                    "length": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "totalPages": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/likes/": {
+      "get": {
+        "tags": [
+          "likes"
+        ],
+        "summary": "Get all users likes",
+        "description": "Get all users likes",
+        "operationId": "Get all users likes",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "likes": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Like"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Total number of likes"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/likes/{obj}": {
+      "get": {
+        "tags": [
+          "likes"
+        ],
+        "summary": "Get likes for an obj",
+        "description": "Get likes for an obj",
+        "operationId": "Get likes for an obj",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "path",
+            "description": "Write _id post",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Количество лайков"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/likes/like": {
+      "post": {
+        "tags": [
+          "likes"
+        ],
+        "summary": "Like some obj",
+        "description": "Like some obj",
+        "operationId": "Like some obj",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "obj": {
+                    "type": "string",
+                    "description": "write post _id"
+                  }
+                },
+                "required": [
+                  "obj"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newLike": {
+                      "$ref": "#/components/schemas/Like"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/likes/unlike": {
+      "post": {
+        "tags": [
+          "likes"
+        ],
+        "summary": "Unlike some obj",
+        "description": "Unlike some obj",
+        "operationId": "Unlike some obj",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "obj": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "obj"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Лайк успешно удален"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/notifications/all": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get All Notifications",
+        "description": "Get All Notifications",
+        "operationId": "allNotifications",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Детальное описание объекта нотификации должно быть   здесь"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Total number of pages. Null if not paginated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "girl",
+          "user"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/notifications/unreadable": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get Unreadable Notifications",
+        "description": "Get Unreadable Notifications",
+        "operationId": "unreadableNotification",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Детальное описание объекта нотификации должно быть   здесь"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Total number of pages. Null if not paginated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "girl",
+          "user"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/notifications/readable": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get readable Notifications",
+        "description": "Get readable Notifications",
+        "operationId": "readableNotification",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Детальное описание объекта нотификации должно быть   здесь"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Total number of pages. Null if not paginated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "girl",
+          "user"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/notifications/{id}": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "State Changed to read Notification",
+        "description": "State Changed to read Notification",
+        "operationId": "readNotification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the notification",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Result message"
+                    },
+                    "updated": {
+                      "$ref": "#/components/schemas/Notifications",
+                      "description": "Updated notification (only present if a notification   was updated)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/payments/": {
+      "get": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Find payments by criteria",
+        "description": "Returns a list of payments based on the given criteria",
+        "operationId": "getPayments",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "payments": {
+                      "type": "object",
+                      "properties": {
+                        "docs": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Payment"
+                          }
+                        },
+                        "totalDocs": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "pagingCounter": {
+                          "type": "integer"
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean"
+                        },
+                        "hasNextPage": {
+                          "type": "boolean"
+                        },
+                        "prevPage": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "nextPage": {
+                          "type": "integer",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/posts/all-public-posts": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Retrieve all public posts",
+        "description": "Get all public posts based on the given filters and pagination.",
+        "operationId": "getFeedPosts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "data",
+            "required": true,
+            "description": "Filtering data for retrieving public posts.",
+            "schema": {
+              "type": "string",
+              "example": "{\"name\": \"D182\", \"ages\": [18,30], \"languages\": [], \"cities\": [\"654115abf51d393d9341c0e9\"], \"country\": \"654115abf51d393d9341c0e6\"}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/posts"
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "length": {
+                      "type": "integer"
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/posts/user/{id}": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get all girl post route",
+        "description": "Get all girl post route",
+        "operationId": "getGirlPost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Write user _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/posts"
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Посты получены"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/posts/": {
+      "post": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Create new post route",
+        "description": "Create new post route",
+        "operationId": "createPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Array of image files"
+                  },
+                  "videos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Array of video files"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "isPublic": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "$ref": "#/components/schemas/posts"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Пост успешно создан"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get single post route",
+        "description": "Get single post route",
+        "operationId": "getPost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Write post _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "$ref": "#/components/schemas/posts"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Пост получен"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "post not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      },
+      "patch": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Update item route",
+        "description": "Update item route",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Write post _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "existedImages": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Array of image files"
+                  },
+                  "existedVideos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Array of image files"
+                  },
+                  "videos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Array of video files"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "isPublic": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "$ref": "#/components/schemas/posts"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Пост успешно создан"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Delete item route",
+        "description": "Delete item route",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Write post _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Пост удален"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Пост не существует",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Вы не авторизованы",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/profile/": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Get profile route",
+        "description": "Get profile route",
+        "operationId": "getProfile",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/profile/changePassword/": {
+      "post": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Change password route",
+        "description": "Change password route",
+        "operationId": "changePassword",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newPassword": {
+                    "type": "string"
+                  },
+                  "oldPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "PASSWORD_CHANGED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "wrong password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/purchases/bundle/": {
+      "post": {
+        "tags": [
+          "purchases"
+        ],
+        "summary": "Buy a bundle",
+        "description": "Buy a bundle",
+        "operationId": "Buy a bundle",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bundleId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "bundleid"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "savedUser": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Пакет успешно куплен"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/region/countries": {
+      "get": {
+        "tags": [
+          "region"
+        ],
+        "summary": "Get all countries",
+        "description": "Get all countries",
+        "operationId": "allCountries",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "states": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "iso2": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "iso2"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/region/states/{countryISO}": {
+      "get": {
+        "tags": [
+          "region"
+        ],
+        "summary": "Get states by country",
+        "description": "Get states by country",
+        "operationId": "countryStates",
+        "parameters": [
+          {
+            "name": "countryISO",
+            "in": "path",
+            "description": "Write name countryISO",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "states": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "iso2": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "iso2"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/requests/": {
+      "get": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Get user's requests",
+        "description": "Get user's requests",
+        "operationId": "getRequests",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "requests": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Request"
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      },
+      "post": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Create request",
+        "description": "Create request",
+        "operationId": "createRequests",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "write \"redeem\" or \"support\""
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "details": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newRequest": {
+                      "$ref": "#/components/schemas/Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Запрос создан"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/stripeNew/webhook": {
+      "post": {
+        "tags": [
+          "stripe"
+        ],
+        "summary": "Webhook handler for asynchronous events.",
+        "description": "Webhook handler for asynchronous events.",
+        "operationId": "Webhook handler for asynchronous events.",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "received": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/stripeNew/create-payment-intent/": {
+      "get": {
+        "tags": [
+          "stripe"
+        ],
+        "summary": "Create a new payment intent",
+        "description": "Returns a payment intent client secret   for the given amount",
+        "operationId": "createPaymentIntent",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "Amount for the payment intent",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clientSecret": {
+                      "type": "string",
+                      "description": "Client secret for the   payment intent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error encountered during processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "description": "Detailed error object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/stripeNew/payment-intent/{_id}": {
+      "get": {
+        "tags": [
+          "stripe"
+        ],
+        "summary": "Retrieve a payment intent by ID",
+        "description": "Returns details about a specific payment   intent",
+        "operationId": "getPaymentIntentById",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "ID of the payment intent to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clientSecret": {
+                      "type": "string",
+                      "description": "Client secret for the   payment intent"
+                    },
+                    "payAmount": {
+                      "type": "number",
+                      "description": "Payment amount associated   with the intent (divided by 100 for   actual amount)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error encountered during processing   or PaymentIntent doesn't exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "description": "Detailed error object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/stripeNew/payment-intent-list": {
+      "get": {
+        "tags": [
+          "stripe"
+        ],
+        "summary": "Retrieve a list of payment intents for the authenticated user",
+        "description": "Returns a list of the most recent 20 payment intents associated with the authenticated user",
+        "operationId": "getPaymentIntentList",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "paymentIntentList": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PaymentIntent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error encountered during processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "description": "Detailed error object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/tariff/": {
+      "post": {
+        "tags": [
+          "tariff"
+        ],
+        "summary": "Create tariff",
+        "description": "Create tariff",
+        "operationId": "createTariff",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "description"
+                  },
+                  "rate": {
+                    "type": "string",
+                    "description": "rate"
+                  }
+                },
+                "required": [
+                  "description",
+                  "rate"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tariff"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/tariff/{id}": {
+      "patch": {
+        "tags": [
+          "tariff"
+        ],
+        "summary": "Update tariff",
+        "description": "Update tariff",
+        "operationId": "updateTariff",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "description"
+                  },
+                  "rate": {
+                    "type": "string",
+                    "description": "rate"
+                  }
+                },
+                "required": [
+                  "description",
+                  "rate"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/transactions/get-my-transactions/": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "get-my-transactions",
+        "description": "get-my-transactions",
+        "operationId": "get-my-transactions",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Транзакции пользователя"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/receipts/": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get All Receipts",
+        "description": "Get All Receipts",
+        "operationId": "getAllReceipts",
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Receipts"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/update/": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update the user",
+        "description": "update the user",
+        "operationId": "updateUser1",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "name"
+                  },
+                  "age": {
+                    "type": "string",
+                    "description": "age"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "description"
+                  },
+                  "profileUrl": {
+                    "type": "string",
+                    "description": "profileUrl"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "country"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "city"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User Profile updated successfully"
+                    },
+                    "userUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/users/update-out-btc-address/": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update the outgoing BTC address",
+        "description": "update the outgoing BTC address",
+        "operationId": "updateOutBTCAddress",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "outBTCAddress": {
+                    "type": "string",
+                    "description": "outBTCAddress"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User outgoing BTC address updated successfully"
+                    },
+                    "userUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/update-avatar/": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "upload user avatar",
+        "description": "upload user avatar",
+        "operationId": "updateUserAvatar",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "file image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User Profile updated successfully"
+                    },
+                    "userUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/users/update-cover/": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "upload user cover",
+        "description": "upload user cover",
+        "operationId": "updateUserCover",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cover": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "file image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User Profile updated successfully"
+                    },
+                    "userUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/users/model/register": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "SignUp the model",
+        "description": "SignUp the model",
+        "operationId": "createModel",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "file image"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "email"
+                  },
+                  "age": {
+                    "type": "string",
+                    "description": "age"
+                  },
+                  "pricePerDay": {
+                    "type": "string",
+                    "description": "pricePerDay"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "password"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "country"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "state"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "city"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Девушка успешно зарегистрирована"
+                    },
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/users/model/all": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Getting all model",
+        "description": "Getting all model",
+        "operationId": "getAllModels",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "data",
+            "required": true,
+            "description": "Filtering data for models",
+            "schema": {
+              "type": "string",
+              "example": "{\"name\": \"D182\", \"ages\": [18,30], \"languages\": [], \"cities\": [\"654115abf51d393d9341c0e9\"], \"country\": \"654115abf51d393d9341c0e6\"}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Список всех девушек"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/users/model/price-per-day": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all models price per day",
+        "description": "Get all models price per day",
+        "operationId": "GetByPrice",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of results per page"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "price": {
+                    "type": "number",
+                    "description": "Price to filter by"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    },
+                    "currentPage": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/model/age": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all models by age",
+        "description": "Get all models by age",
+        "operationId": "modelByAge",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of results per page"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "age": {
+                    "type": "number",
+                    "description": "Age to filter by"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    },
+                    "currentPage": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/users/model/service/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get model by service",
+        "description": "Get model by service",
+        "operationId": "getAllModelWithService",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "_id from model service",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    },
+                    "currentPage": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Услуга не найдена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/model/language/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get model by language",
+        "description": "Get model by language",
+        "operationId": "getAllModelWithLanguage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id from model languages",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "modelUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Услуга не найдена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "user"
+        ]
+      }
+    },
+    "/users/model/national": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Upload the National id card",
+        "description": "Upload the National id card",
+        "operationId": "uploadIdCard",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id_card": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "file image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "number",
+                      "example": "Спасибо! Ожидайте проверки вашего профиля Администрацией Heydaddy"
+                    },
+                    "modelUpdate": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Войдите к себе в аккаунт"
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl"
+        ]
+      }
+    },
+    "/users/model/country": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all models by country",
+        "description": "Get all models by country",
+        "operationId": "getAllModelWithCountry",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "data",
+            "required": true,
+            "description": "Filtering data for models",
+            "schema": {
+              "type": "string",
+              "example": "{\"countryId\": \"654115abf51d393d9341c0e6\"}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "message": {
+                      "type": "number",
+                      "example": "Все девушки по стране Albania"
+                    },
+                    "length": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/model/city": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all models by city",
+        "description": "Get all models by city",
+        "operationId": "getAllModelWithCity",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "data",
+            "required": true,
+            "description": "Filtering data for models",
+            "schema": {
+              "type": "string",
+              "example": "{\"cityId\": \"654115abf51d393d9341c0e9\"}"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "message": {
+                      "type": "number",
+                      "example": "Все девушки по стране Albania"
+                    },
+                    "length": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "totalPages": {
+                      "type": "number",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-roles": [
+          "girl",
+          "user"
+        ]
+      }
+    },
+    "/users/profile/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user by profileUrl",
+        "description": "Get user by profileUrl",
+        "operationId": "getUserByProfileUrl",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id from model user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "totalPosts": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "openPosts": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "closedPosts": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get item route",
+        "description": "Get item route",
+        "operationId": "Get item route",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id from model user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "totalPosts": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "openPosts": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "closedPosts": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/verification/": {
+      "get": {
+        "tags": [
+          "verification"
+        ],
+        "summary": "Get verification route",
+        "description": "Get verification route",
+        "operationId": "Get verification route",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "verification"
+        ],
+        "summary": "Save verification data",
+        "description": "Save verification data",
+        "operationId": "SaveVerificationData",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "personalBirthDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Birthdate to be parsed   into day, month, and year."
+                  },
+                  "personalIDExpirationDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ID expiration date to   be parsed into day, month, and   year."
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Claim": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "payment",
+              "chat",
+              "support"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "seen",
+              "approved",
+              "rejected"
+            ],
+            "default": "new"
+          },
+          "statusText": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "target": {
+            "$ref": "#/components/schemas/User"
+          },
+          "lastCheckedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "type",
+          "status",
+          "user",
+          "target",
+          "title",
+          "description"
+        ]
+      },
+      "PaymentIntent": {
+        "type": "object",
+        "required": [
+          "user",
+          "status",
+          "stripeId",
+          "payAmount",
+          "balanceAmount",
+          "commissionAmount",
+          "commissionPercent"
+        ],
+        "properties": {
+          "user": {
+            "type": "string",
+            "format": "objectId",
+            "description": "The user ID associated with the payment intent."
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the payment intent."
+          },
+          "stripeId": {
+            "type": "string",
+            "description": "ID of the payment intent in the Stripe system."
+          },
+          "payAmount": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount that the user is required to pay."
+          },
+          "balanceAmount": {
+            "type": "number",
+            "format": "float",
+            "description": "Balance amount for the payment intent."
+          },
+          "commissionAmount": {
+            "type": "number",
+            "format": "float",
+            "description": "Commission amount for the payment intent."
+          },
+          "commissionPercent": {
+            "type": "number",
+            "format": "float",
+            "description": "Commission percentage for the payment intent."
+          },
+          "finished": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether the payment intent is finished."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the payment intent was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the payment intent was last updated."
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the service."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the service was created.",
+            "default": "The current date-time"
+          }
+        }
+      },
+      "Receipts": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Reference to User model.",
+            "format": "objectId"
+          },
+          "user": {
+            "type": "string",
+            "description": "Reference to User model.",
+            "format": "objectId"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the online user."
+          },
+          "message": {
+            "type": "string",
+            "description": "Message associated with the online user."
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "required": [
+          "confirmed",
+          "amount",
+          "direction",
+          "user"
+        ],
+        "properties": {
+          "txId": {
+            "type": "string",
+            "description": "Transaction ID (for bitaps only)."
+          },
+          "code": {
+            "type": "string",
+            "description": "Transaction code (for coinbase only)."
+          },
+          "status": {
+            "type": "string",
+            "description": "Transaction status (for bitaps only)."
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type (for coinbase only)."
+          },
+          "confirmed": {
+            "type": "boolean",
+            "description": "If the transaction is confirmed."
+          },
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount in the transaction."
+          },
+          "direction": {
+            "type": "string",
+            "description": "Direction of the transaction.",
+            "enum": [
+              "in",
+              "out"
+            ]
+          },
+          "user": {
+            "type": "string",
+            "description": "Reference to User model.",
+            "format": "objectId"
+          },
+          "confirmations": {
+            "type": "number",
+            "description": "Number of confirmations (for bitaps only)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the transaction was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the transaction was last updated."
+          }
+        }
+      },
+      "Tariff": {
+        "type": "object",
+        "required": [
+          "user",
+          "description",
+          "rate"
+        ],
+        "properties": {
+          "user": {
+            "type": "string",
+            "description": "Reference to User model.",
+            "format": "objectId"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the tariff."
+          },
+          "rate": {
+            "type": "number",
+            "format": "float",
+            "description": "Rate of the tariff."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the tariff was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the tariff was last updated."
+          }
+        }
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "redeem",
+              "support"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "seen",
+              "approved",
+              "rejected"
+            ],
+            "default": "new"
+          },
+          "statusText": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "lastCheckedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "type",
+          "status",
+          "user",
+          "title",
+          "description"
+        ]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "holded": {
+            "type": "boolean"
+          },
+          "registerDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "integer"
+          },
+          "sub": {
+            "$ref": "#/components/schemas/Sub"
+          },
+          "plannedPayoutDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "from": {
+            "$ref": "#/components/schemas/User"
+          },
+          "to": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "__v": {
+            "type": "integer"
+          }
+        }
+      },
+      "Sub": {
+        "type": "object",
+        "required": [
+          "starts",
+          "ends",
+          "subscriber",
+          "model"
+        ],
+        "properties": {
+          "starts": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ends": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            }
+          },
+          "subscriber": {
+            "$ref": "#/components/schemas/User"
+          },
+          "model": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Notifications": {
+        "type": "object",
+        "required": [
+          "user",
+          "message",
+          "readable",
+          "createdAt"
+        ],
+        "properties": {
+          "user": {
+            "type": "string",
+            "format": "ObjectId",
+            "description": "Reference to the User object"
+          },
+          "message": {
+            "type": "string",
+            "description": "Notification message"
+          },
+          "readable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicator if the notification is readable"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "default": "now()",
+            "description": "Date when the notification was created"
+          }
+        }
+      },
+      "Like": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Reference to User",
+            "format": "objectId"
+          },
+          "obj": {
+            "type": "string",
+            "description": "Object ID",
+            "format": "objectId"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of creation"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the last update"
+          }
+        }
+      },
+      "Favourites": {
+        "type": "object",
+        "required": [
+          "userId",
+          "modelId",
+          "createdAt"
+        ],
+        "properties": {
+          "userId": {
+            "$ref": "#/components/schemas/User"
+          },
+          "modelId": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the user became online. Defaults to current time."
+          }
+        }
+      },
+      "ServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "properties": {
+              "msg": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "errors"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "errors"
+        ]
+      },
+      "ErrorsResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "Error message."
+                },
+                "param": {
+                  "type": "string",
+                  "description": "The field that triggered the error."
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Location where the error occurred."
+                }
+              },
+              "required": [
+                "msg",
+                "param",
+                "location"
+              ]
+            }
+          }
+        },
+        "required": [
+          "errors"
+        ]
+      },
+      "Bundle": {
+        "type": "object",
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "description": "Status of the bundle (active or not)"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "limited",
+              "unlimited"
+            ],
+            "description": "Type of the bundle"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Amount of packages (relevant for limited bundles)"
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of payments related to the bundle"
+          },
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the bundle"
+          },
+          "user": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the user"
+          },
+          "qty": {
+            "type": "integer",
+            "description": "Quantity of messages in the bundle"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the bundle"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the bundle"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the bundle was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the bundle was last updated"
+          },
+          "__v": {
+            "type": "integer",
+            "description": "Version field for Mongoose schema"
+          }
+        }
+      },
+      "BundlesResponse": {
+        "type": "object",
+        "properties": {
+          "bundles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bundle"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Comments": {
+        "required": [
+          "postId",
+          "userId",
+          "comment"
+        ],
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/User"
+          },
+          "postId": {
+            "$ref": "#/components/schemas/posts"
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "mentions": {
+            "type": "array",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Name of the user"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the user"
+          },
+          "emailConfirmed": {
+            "type": "boolean",
+            "default": false
+          },
+          "emailConfirmationCode": {
+            "type": "string"
+          },
+          "emailConfirmationValidUntil": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "emailConfirmationRequestedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "girl",
+              "admin",
+              "moderator"
+            ],
+            "default": "user"
+          },
+          "verification": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "subscribers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "subscribed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "subscriptionEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "profileNum": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "profileUrl": {
+            "type": "string"
+          },
+          "profileGallery": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "balance": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "unconfirmedBalance": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "inBTCAddress": {
+            "type": "string"
+          },
+          "outBTCAddress": {
+            "type": "string"
+          },
+          "paymentCode": {
+            "type": "string"
+          },
+          "invoice": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "default": 18
+          },
+          "phone": {
+            "type": "string"
+          },
+          "country": {
+            "type": "object"
+          },
+          "state": {
+            "type": "object"
+          },
+          "city": {
+            "type": "object"
+          },
+          "profile": {
+            "type": "object"
+          },
+          "cover": {
+            "type": "object"
+          },
+          "nationalId": {
+            "type": "object"
+          },
+          "pricePerDay": {
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          "pricePerMessage": {
+            "type": "integer",
+            "format": "int32",
+            "default": 9999
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Language"
+            }
+          },
+          "urlTelegram": {
+            "type": "string",
+            "format": "uri"
+          },
+          "urlWhatsApp": {
+            "type": "string",
+            "format": "uri"
+          },
+          "loginAttempts": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          "blockExpires": {
+            "type": "string",
+            "format": "date-time",
+            "default": "2023-09-14T00:00:00Z"
+          },
+          "googleId": {
+            "type": "string"
+          },
+          "messageBundles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "messages": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "personalFirstName": {
+            "type": "string"
+          },
+          "personalSecondName": {
+            "type": "string"
+          },
+          "personalFamilyName": {
+            "type": "string"
+          },
+          "personalDayOfBirth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalMonthOfBirth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalYearOfBirth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalSex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "personalCountry": {
+            "type": "string"
+          },
+          "personalCity": {
+            "type": "string"
+          },
+          "personalStreet": {
+            "type": "string"
+          },
+          "personalBuilding": {
+            "type": "string"
+          },
+          "personalAppartment": {
+            "type": "string"
+          },
+          "personalZIP": {
+            "type": "string"
+          },
+          "personalPassport": {
+            "type": "object"
+          },
+          "personalIDCardFront": {
+            "type": "object"
+          },
+          "personalIDCardBack": {
+            "type": "object"
+          },
+          "personalDriverLicenseFront": {
+            "type": "object"
+          },
+          "personalDriverLicenseBack": {
+            "type": "object"
+          },
+          "personalIDExpirationDay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalIDExpirationMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalIDExpirationYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalIDHasNoExpiration": {
+            "type": "boolean",
+            "default": false
+          },
+          "personalSelfie": {
+            "type": "object"
+          }
+        }
+      },
+      "Language": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the service."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "default": "2023-09-14T00:00:00Z"
+          }
+        }
+      },
+      "posts": {
+        "required": [
+          "title",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "videos": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

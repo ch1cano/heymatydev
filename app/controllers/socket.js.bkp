@@ -1,0 +1,190 @@
+const Message = require('../models/message')
+const User = require('../models/user')
+const OnlineUsers = require('../models/onlineUsers')
+const { http } = require('../../server')
+const MessageToUser = require('../../emails/messageUser')
+const MessageToModel = require('../../emails/messageModel')
+const io = require('socket.io')
+const socketio = io(http, { cors: { origin: '*' } })
+const randomstring = require('randomstring')
+const siofu = require('socketio-file-upload')
+const fs = require('fs')
+
+socketio.on('connection', (socket) => {
+  console.log(`New User Logged In with ID ${socket.id}`)
+
+  // Collect message and insert into database
+  socket.on('chatMessage', async (data) => {
+    // recieves message from client-end along with sender's and reciever's details
+    // let data =  {
+    //    from: "senderid",
+    //    to: "receiverid",
+    //    message: "Hi",
+    //  }
+
+    const senderUser = await User.findById(data.from)
+    if (!senderUser) {
+      socket.emit('message', { msg: 'Sender User doest not exist' })
+    }
+
+    const receeiverUser = await User.findById(data.to)
+    if (!receeiverUser) {
+      socket.emit('message', { msg: 'Receiver User doest not exist' })
+    }
+
+    const newMessage = new Message({
+      from: data.from,
+      to: data.to,
+      message: data.message,
+      attachment: data.withFiles ? attachment : null
+    })
+    if (data.withFiles) {
+      attachment = {
+        images: [],
+        videos: []
+      }
+    }
+    await newMessage.save()
+
+    if (newMessage) {
+      socket.emit('message', newMessage)
+    }
+
+    const onlineUser = await OnlineUsers.findOne({ userId: data.to })
+    console.log(onlineUser)
+    if (onlineUser) {
+      socket.to(onlineUser.socketId).emit('message', newMessage)
+    } else {
+      const user = await User.findById(data.to)
+      const model = await User.findById(data.from)
+      if (data.to == 'user') {
+        if (model.type == 'girl' && user.type == 'user') {
+          await MessageToUser(user, model)
+        }
+      } else if (data.to == 'girl') {
+        await MessageToModel(user, model)
+      }
+    }
+  })
+
+  // save files
+  const uploader = new siofu()
+  let countFiles = 0
+  let attachment = {
+    images: [],
+    videos: []
+  }
+
+  let path = null
+  const prepareDir = (idUser) => {
+    console.log('prepare', idUser)
+    if (!idUser || path) {
+      return
+    }
+    path = `${appRoot}/public/messages/${idUser}`
+    fs.mkdir(path, { recursive: true }, (err) => {})
+    uploader.dir = path
+  }
+
+  uploader.listen(socket)
+
+  uploader.on('start', (e) => {
+    console.log(e)
+    // that could not be async!!! because changing of name does not have time to work
+    if (!countFiles) {
+      countFiles = e.file.meta.count
+    }
+
+    idUser = e.file.meta.idUser
+    prepareDir(idUser)
+    if (!idUser) {
+      uploader.abort(e.file.id, socket)
+      socket.emit('file-error', 'Недопустимый отправитель')
+      calculateFiles(e)
+    } else {
+      const name = e.file.name.toLowerCase().split('.')
+      const fileEnd = name[name.length - 1]
+
+      if (fileEnd.match(/png|jpg|jpeg/)) {
+        e.file.name = `${Date.now().toString()}${randomstring.generate(
+          6
+        )}.${fileEnd}`
+        e.file.meta.type = 'images'
+      } else if (fileEnd.match(/avi|mkv|mov|flv|vob|mp4|wmv|3gp|mpeg4/)) {
+        e.file.name = `${Date.now().toString()}${randomstring.generate(
+          6
+        )}.${fileEnd}`
+        e.file.meta.type = 'videos'
+      } else {
+        uploader.abort(e.file.id, socket)
+        socket.emit('file-error', `Недопустимый формат файла: ${e.file.name}`)
+        calculateFiles(e)
+      }
+    }
+  })
+
+  uploader.on('error', async (err) => {
+    console.log('error-file', err)
+    calculateFiles()
+  })
+
+  uploader.on('saved', async (e) => {
+    attachment[e.file.meta.type].push({ name: e.file.name })
+    calculateFiles(e)
+  })
+
+  const calculateFiles = (event) => {
+    countFiles--
+    if (!countFiles) {
+      event.file.clientDetail = { isFinish: true, attachment }
+      countFiles = 0
+      path = null
+    }
+  }
+
+  socket.on('userDetails', async (data) => {
+    // checks if a new user has logged in and recieves the established chat details
+
+    // data must be in the object like from user id and to user id
+    const online = await OnlineUsers.findOne({
+      userId: data.fromUser,
+      socketId: socket.id
+    })
+    if (!online) {
+      const onlineUser = new OnlineUsers({
+        userId: data.fromUser,
+        socketId: socket.id
+      })
+      await onlineUser.save()
+    }
+    const from = []
+    const to = []
+    if (data.fromUser) {
+      from.push(data.fromUser)
+      to.push(data.fromUser)
+    }
+    if (data.toUser) {
+      from.push(data.toUser)
+      to.push(data.toUser)
+    }
+
+    const messages = await Message.find({
+      $or: [{ from: { $in: from } }, { to: { $in: to } }]
+    })
+    //.projection({ _id: 0 })
+    //.toArray()
+    //console.log(messages)
+    socket.emit('chathistory', { messages, userId: data.fromUser }) // emits the entire chat history to client
+  })
+
+  socket.on('disconnect', async (userId) => {
+    //const offline = await OnlineUsers.findById(userId)
+    const offline = await OnlineUsers.findOne({ socketId: socket.id })
+    if (offline) {
+      console.log(`User ${socket.id} went offline...`)
+      await offline.remove()
+    }
+  })
+})
+
+module.exports = socketio
